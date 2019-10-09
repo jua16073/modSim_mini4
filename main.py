@@ -1,4 +1,5 @@
-
+from random import random
+import random
 mancala = [4,4,4,4,4,4,0,4,4,4,4,4,4,0]
 
 
@@ -24,13 +25,13 @@ def rules(pos, state, turn):
     return new_state, 3
 
   # Not available move
-  if pos % 7 == 6:
+  if pos == 6 or pos == 13:
     return state, turn
 
   # Posiciones para jugador 1
   if turn == 0 and pos < 7:
     new_state, last = move(pos, state, turn)
-    if last % 7 == 6:
+    if last == 6 or last == 13:
       pass
     else:
       turn = (turn + 1) % 2
@@ -42,7 +43,7 @@ def rules(pos, state, turn):
   # Posiciones para jugador 2
   elif turn == 1 and pos > 6:
     new_state, last = move(pos, state, turn)
-    if last % 7 == 6:
+    if last == 6 or last == 13:
       pass
     else:
       turn = (turn + 1) % 2
@@ -86,8 +87,22 @@ def for_print(board):
     print("   ", board[x], end = "")
   print("")
 
-def monte_carlo():
-  return 10
+def monte_carlo(state):
+  var1 = 0
+  var2 = 0
+  var3 = 0
+  var4 = 0
+  var5 = 0
+  var6 = 0
+  turn = 1
+  temp_state = state.copy()
+  posibilidades = [7,8,9,10,11,12]
+  a = random.choice(posibilidades)
+  temp_state, turn = rules(int(a),temp_state, turn)
+  b = juego_random(temp_state)
+  print(b)
+  return a
+
 
 def juego():
   board = mancala
@@ -97,14 +112,33 @@ def juego():
     if turn == 0:
       pos = input("Ingrese su movimiento ")
     else:
-      pos = monte_carlo()
+      pos = monte_carlo(board)
     board, turn = rules(int(pos), board, turn)
     for_print(board)
     if turn == 3:
-      break
-      
-    
-    
+      if board[6] > board[13]:
+        return 1
+      else:
+        return 2
+
+def juego_random(state):
+  board = state.copy()
+  turn = 0
+  prob = [0,1,2,3,4,5]
+  prob2 = [7,8,9,10,11,12]
+  while True:
+    print('nani')
+    if turn == 0:
+      pos = random.choice(prob)
+    else:
+      pos = random.choice(prob2)
+    board, turn = rules(int(pos),board,turn)
+    if turn == 3:
+      print('nani')
+      if board[6] > board[13]:
+        return 1
+      else:
+        return 2
 
   
 if __name__ == "__main__":
