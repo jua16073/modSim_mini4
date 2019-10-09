@@ -67,8 +67,8 @@ def rules(pos, state, turn):
 # Movement in the board
 def move(pos, state, turn):
   moves = state[pos]
-  state[pos] = 0
   new_state = state.copy()
+  new_state[pos] = 0
   x = 1
   while x<=moves:
     if pos + x == 6 and turn != 0:
@@ -76,7 +76,7 @@ def move(pos, state, turn):
     elif pos + x == 13 and turn != 1:
       moves +=1
     else:
-      new_state[(pos+x) % 14] = state[(pos+x) % 14] + 1
+      new_state[(pos+x) % 14] = new_state[(pos+x) % 14] + 1
     x += 1
   return (new_state, (pos + x - 1) % 14) 
 
