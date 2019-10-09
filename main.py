@@ -4,7 +4,6 @@ mancala = [4,4,4,4,4,4,0,4,4,4,4,4,4,0]
 
 
 def rules(pos, state, turn):
-  print("turno ", turn)
   if state[pos] == 0:
     return state, turn
 
@@ -19,9 +18,9 @@ def rules(pos, state, turn):
       pass
     else:
       turn = (turn + 1) % 2
-    if new_state[last] == 1:
-      new_state[6] =  new_state[6] + new_state[(12-last)]
-      new_state[12-last] = 0
+    # if new_state[last] == 1:
+    #   new_state[6] =  new_state[6] + new_state[(12-last)]
+    #   new_state[12-last] = 0
 
     sub_one = new_state[0:6]
     sub_two = new_state[7:13]
@@ -44,9 +43,9 @@ def rules(pos, state, turn):
       pass
     else:
       turn = (turn + 1) % 2
-    if new_state[last] == 1:
-      new_state[13] = new_state[(13-last)%14] + new_state[13]
-      new_state[(13-last)%14] = 0
+    # if new_state[last] == 1:
+    #   new_state[13] = new_state[(13-last)%14] + new_state[13]
+    #   new_state[(13-last)%14] = 0
     sub_one = state[0:6]
     sub_two = state[7:13]
 
@@ -95,20 +94,30 @@ def for_print(board):
   print("")
 
 def monte_carlo(state):
-  var1 = 0
-  var2 = 0
-  var3 = 0
-  var4 = 0
-  var5 = 0
-  var6 = 0
+  arr = [0,0,0,0,0,0,]
   turn = 1
   temp_state = state.copy()
   posibilidades = [7,8,9,10,11,12]
-  a = random.choice(posibilidades)
-  temp_state, turn = rules(int(a),temp_state, turn)
-  b = juego_random(temp_state)
-  print(b)
-  return a
+  for i in range(10000):
+    a = random.choice(posibilidades)
+    temp_state, turn = rules(int(a),temp_state, turn)
+    b = juego_random(temp_state)
+    if b == 1:
+      if a == 7:
+        arr[0] += 1
+      elif a == 8:
+        arr[1] += 1
+      elif a == 9:
+        arr[2] += 1
+      elif a == 10:
+        arr[3] += 1
+      elif a == 11:
+        arr[4] += 1
+      elif a == 12:
+        arr[5] += 1
+  return arr.index(max(arr)) + 7
+
+
 
 
 def juego():
@@ -134,14 +143,12 @@ def juego_random(state):
   prob = [0,1,2,3,4,5]
   prob2 = [7,8,9,10,11,12]
   while True:
-    print('nani')
     if turn == 0:
       pos = random.choice(prob)
     else:
       pos = random.choice(prob2)
-    board, turn = rules(int(pos),board,turn)
+    board, turn = rules(pos,board,turn)
     if turn == 3:
-      print('nani')
       if board[6] > board[13]:
         return 1
       else:
