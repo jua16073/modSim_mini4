@@ -73,11 +73,7 @@ def move(pos, state, turn):
   new_state = state.copy()
   x = 1
   while x<=moves:
-    if pos + x == 6 and turn == 0:
-      new_state[(pos+x) % 14] = state[(pos + x) % 14] + 1
-    elif pos + x == 13 and turn == 1:
-      new_state[(pos+x) % 14] = state[(pos+x) % 14] + 1
-    elif pos + x == 6 and turn != 0:
+    if pos + x == 6 and turn != 0:
       moves += 1
     elif pos + x == 13 and turn != 1:
       moves +=1
