@@ -6,23 +6,7 @@ mancala = [4,4,4,4,4,4,0,4,4,4,4,4,4,0]
 def rules(pos, state, turn):
   print("turno ", turn)
   if state[pos] == 0:
-    print("pos en 0")
     return state, turn
-
-  sub_one = state[0:6]
-  sub_two = state[7:13]
-
-  # Check if someone won
-  if sum(sub_one) == 0 or sum(sub_two) == 0:
-    new_state = state.copy()
-    new_state[6] = sum(sub_one)
-    new_state[13] = sum(sub_two)
-    i = 0
-    while i < 6:
-      new_state[i] = 0
-      new_state[i + 7] = 0
-      i += 1
-    return new_state, 3
 
   # Not available move
   if pos == 6 or pos == 13:
@@ -36,8 +20,21 @@ def rules(pos, state, turn):
     else:
       turn = (turn + 1) % 2
     if new_state[last] == 1:
-      new_state[6] =  new_state[6] + new_state[(7+last)%14]
-      new_state[(last+7)%14] = 0
+      new_state[6] =  new_state[6] + new_state[(12-last)]
+      new_state[12-last] = 0
+
+    sub_one = new_state[0:6]
+    sub_two = new_state[7:13]
+    # Check if someone won
+    if sum(sub_one) == 0 or sum(sub_two) == 0:
+      new_state[6] = sum(sub_one)
+      new_state[13] = sum(sub_two)
+      i = 0
+      while i < 6:
+        new_state[i] = 0
+        new_state[i + 7] = 0
+        i += 1
+      return new_state, 3
     return new_state, turn
 
   # Posiciones para jugador 2
@@ -50,10 +47,24 @@ def rules(pos, state, turn):
     if new_state[last] == 1:
       new_state[13] = new_state[(13-last)%14] + new_state[13]
       new_state[(13-last)%14] = 0
+    sub_one = state[0:6]
+    sub_two = state[7:13]
+
+    # Check if someone won
+    if sum(sub_one) == 0 or sum(sub_two) == 0:
+      new_state = state.copy()
+      new_state[6] = sum(sub_one)
+      new_state[13] = sum(sub_two)
+      i = 0
+      while i < 6:
+        new_state[i] = 0
+        new_state[i + 7] = 0
+        i += 1
+      return new_state, 3
     return new_state, turn
   else:
     return (state, turn)
-
+    
 
 # Movement in the board
 def move(pos, state, turn):
