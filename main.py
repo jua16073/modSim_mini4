@@ -9,6 +9,7 @@ def rules(pos, state, turn):
 
   # Not available move
   if pos == 6 or pos == 13:
+    print("En mancala")
     return state, turn
 
   # Posiciones para jugador 1
@@ -22,8 +23,9 @@ def rules(pos, state, turn):
     #   new_state[6] =  new_state[6] + new_state[(12-last)]
     #   new_state[12-last] = 0
 
-    sub_one = new_state[0:6]
-    sub_two = new_state[7:13]
+    sub_one = new_state[0:5]
+    sub_two = new_state[7:12]
+
     # Check if someone won
     if sum(sub_one) == 0 or sum(sub_two) == 0:
       new_state[6] = sum(sub_one)
@@ -46,9 +48,8 @@ def rules(pos, state, turn):
     # if new_state[last] == 1:
     #   new_state[13] = new_state[(13-last)%14] + new_state[13]
     #   new_state[(13-last)%14] = 0
-    sub_one = state[0:6]
-    sub_two = state[7:13]
-
+    sub_one = state[0:5]
+    sub_two = state[7:12]
     # Check if someone won
     if sum(sub_one) == 0 or sum(sub_two) == 0:
       new_state[6] = sum(sub_one)
@@ -71,9 +72,9 @@ def move(pos, state, turn):
   new_state[pos] = 0
   x = 1
   while x<=moves:
-    if pos + x == 6 and turn != 0:
+    if (pos + x)%14 == 6 and turn != 0:
       moves += 1
-    elif pos + x == 13 and turn != 1:
+    elif (pos + x)%14 == 13 and turn != 1:
       moves +=1
     else:
       new_state[(pos+x) % 14] = new_state[(pos+x) % 14] + 1
@@ -145,6 +146,7 @@ def juego_random(state):
       pos = random.choice(prob2)
     board, turn = rules(pos,board,turn)
     if turn == 3:
+      print("nani")
       if board[6] > board[13]:
         return 1
       else:
