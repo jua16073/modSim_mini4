@@ -51,7 +51,6 @@ def rules(pos, state, turn):
 
     # Check if someone won
     if sum(sub_one) == 0 or sum(sub_two) == 0:
-      new_state = state.copy()
       new_state[6] = sum(sub_one)
       new_state[13] = sum(sub_two)
       i = 0
@@ -117,9 +116,6 @@ def monte_carlo(state):
         arr[5] += 1
   return arr.index(max(arr)) + 7
 
-
-
-
 def juego():
   board = mancala
   turn = 0
@@ -157,7 +153,3 @@ def juego_random(state):
   
 if __name__ == "__main__":
   juego()
-  # board , turn = rules(4, mancala, 0)
-  # for_print(board)
-  # if  not turn:
-  #   print("gano alguien")
