@@ -4,6 +4,18 @@ mancala = [4,4,4,4,4,4,0,4,4,4,4,4,4,0]
 
 
 def rules(pos, state, turn):
+  sub_one = state[0:6]
+  sub_two = state[7:13]
+  if sum(sub_one) == 0 or sum(sub_two) == 0:
+    new_state = state.copy()
+    new_state[6] = sum(sub_one)
+    new_state[13] = sum(sub_two)
+    i = 0
+    while i < 6:
+      new_state[i] = 0
+      new_state[i + 7] = 0
+      i += 1
+    return new_state, 3
   if state[pos] == 0:
     return state, turn
 
@@ -24,8 +36,8 @@ def rules(pos, state, turn):
       new_state[12-last] = 0
       new_state[last] = 0
 
-    sub_one = new_state[0:5]
-    sub_two = new_state[7:12]
+    sub_one = new_state[0:6]
+    sub_two = new_state[7:13]
 
     # Check if someone won
     if sum(sub_one) == 0 or sum(sub_two) == 0:
@@ -150,7 +162,6 @@ def juego_random(state):
       pos = random.choice(prob2)
     board, turn = rules(pos,board,turn)
     if turn == 3:
-      print("nani")
       if board[6] > board[13]:
         return 1
       else:
