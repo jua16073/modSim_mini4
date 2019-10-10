@@ -19,9 +19,9 @@ def rules(pos, state, turn):
       pass
     else:
       turn = (turn + 1) % 2
-    # if new_state[last] == 1:
-    #   new_state[6] =  new_state[6] + new_state[(12-last)]
-    #   new_state[12-last] = 0
+    if new_state[last] == 1 and last < 6:
+      new_state[6] =  new_state[6] + new_state[(12-last)]
+      new_state[12-last] = 0
 
     sub_one = new_state[0:5]
     sub_two = new_state[7:12]
@@ -45,9 +45,11 @@ def rules(pos, state, turn):
       pass
     else:
       turn = (turn + 1) % 2
-    # if new_state[last] == 1:
-    #   new_state[13] = new_state[(13-last)%14] + new_state[13]
+
+    if new_state[last] == 1 and 6<last<13:
+      new_state[13] = new_state[abs(last-12)] + new_state[13]
     #   new_state[(13-last)%14] = 0
+
     sub_one = state[0:5]
     sub_two = state[7:12]
     # Check if someone won
